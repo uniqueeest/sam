@@ -10,7 +10,7 @@ export default class ItemFilter extends Component {
   }
 
   setEvent() {
-    const { filterItem } = this.props;
+    const { filterItem } = this.$props;
     this.addEvent('click', '.filterBtn', ({ target }) => {
       filterItem(Number(target.dataset.isFilter));
     });
