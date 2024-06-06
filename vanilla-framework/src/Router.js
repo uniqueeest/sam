@@ -5,15 +5,40 @@ export default class Router {
   }
 
   init() {
-    window.addEventListener('hashchange', this.render.bind(this));
+    window.addEventListener('popstate', this.render.bind(this));
     window.addEventListener('DOMContentLoaded', this.render.bind(this));
+    this.renderInitialPage();
+    this.registerNavLinks();
+  }
+
+  navigate(path) {
+    window.history.pushState({}, '', path);
+    this.render();
   }
 
   render() {
-    const hash = window.location.hash.replace('#', '');
-    const route = this.routes[hash] || this.routes['404'];
+    const path = window.location.pathname;
+    const route = this.routes[path] || this.routes['404'];
     if (route) {
-      new route.view(document.querySelector('#app'));
+      const app = document.querySelector('#app');
+      app.innerHTML = '';
+      new route.content(app);
     }
+  }
+
+  registerNavLinks() {
+    const nav = document.querySelector('#nav');
+    nav.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        e.preventDefault();
+        const path = e.target.getAttribute('href');
+        this.navigate(path);
+      }
+    });
+  }
+
+  renderInitialPage() {
+    const path = window.location.pathname;
+    this.render(path);
   }
 }
