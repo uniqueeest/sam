@@ -21,16 +21,24 @@ export const Test = () => {
   };
 
   return (
-    <article className="flex flex-col gap-6">
-      <button onClick={handleClick}>컴포넌트 내부 토스트</button>
-      <form onSubmit={handleSubmit}>
+    <article className="flex flex-col gap-6 p-4">
+      <button className="p-4 bg-blue-200" onClick={handleClick}>
+        컴포넌트 내부 토스트
+      </button>
+      <form
+        className="flex flex-col items-center gap-2 p-4 border border-blue-200"
+        onSubmit={handleSubmit}
+      >
         <input
+          className="p-2 border border-gray-600"
           type="text"
           value={data}
           onChange={(e) => setData(e.target.value)}
           placeholder="데이터 입력"
         />
-        <button type="submit">저장</button>
+        <button className="p-2 bg-blue-700 text-white" type="submit">
+          저장
+        </button>
       </form>
     </article>
   );
