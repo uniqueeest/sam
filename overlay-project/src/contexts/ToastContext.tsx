@@ -11,9 +11,11 @@ type ToastContextType = {
   showToast: ({
     title,
     description,
+    visibleTime,
   }: {
     title: string;
     description: string;
+    visibleTime?: number;
   }) => void;
   hideToast: (id: string) => void;
   overlayList: OverlayListType[];
@@ -45,7 +47,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
       ]);
 
       // 제거 로직
-      setTimeout(() => id, visibleTime);
+      setTimeout(() => hideToast(id), visibleTime);
     },
     []
   );
