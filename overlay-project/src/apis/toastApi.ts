@@ -1,7 +1,13 @@
-let toastFunction: (title: string, description: string) => void;
+let toastFunction: ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => void;
 
 export const setToastFunction = (
-  fn: (title: string, description: string) => void
+  fn: ({ title, description }: { title: string; description: string }) => void
 ) => {
   toastFunction = fn;
 };
@@ -9,7 +15,7 @@ export const setToastFunction = (
 export const toastApi = {
   create: (params: { title: string; description: string }) => {
     if (toastFunction) {
-      toastFunction(params.title, params.description);
+      toastFunction({ title: params.title, description: params.description });
     }
   },
 };
