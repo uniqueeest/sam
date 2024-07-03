@@ -1,32 +1,61 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
+import { randomId } from '../utils/randomId';
 
-type ToastContextType = {
-  showToast: (title: string, description: string) => void;
-  hideToast: () => void;
-  isVisible: boolean;
+type OverlayListType = {
+  id: string;
   title: string;
   description: string;
+};
+
+type ToastContextType = {
+  showToast: ({
+    title,
+    description,
+  }: {
+    title: string;
+    description: string;
+  }) => void;
+  hideToast: (id: string) => void;
+  overlayList: OverlayListType[];
 };
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [overlayList, setOverlayList] = useState<OverlayListType[]>([]);
 
-  const showToast = (title: string, description: string) => {
-    setIsVisible(true);
-    setTitle(title);
-    setDescription(description);
-  };
+  const showToast = useCallback(
+    ({
+      title,
+      description,
+      visibleTime = 3000,
+    }: {
+      title: string;
+      description: string;
+      visibleTime?: number;
+    }) => {
+      const id = randomId();
+      setOverlayList((prev) => [
+        ...prev,
+        {
+          id,
+          title,
+          description,
+        },
+      ]);
 
-  const hideToast = () => setIsVisible(false);
+      // 제거 로직
+      setTimeout(() => id, visibleTime);
+    },
+    []
+  );
+
+  const hideToast = useCallback((id: string) => {
+    setOverlayList((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
 
   return (
-    <ToastContext.Provider
-      value={{ showToast, hideToast, isVisible, title, description }}
-    >
+    <ToastContext.Provider value={{ showToast, hideToast, overlayList }}>
       {children}
     </ToastContext.Provider>
   );
