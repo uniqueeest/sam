@@ -9,7 +9,7 @@ export const Test = () => {
   const [data, setData] = useState('');
 
   const handleClick = () => {
-    showToast('성공', '테스트 성공');
+    showToast({ title: '성공', description: '내부에서 불러오기' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
