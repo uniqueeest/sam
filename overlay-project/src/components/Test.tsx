@@ -12,6 +12,14 @@ export const Test = () => {
     showToast({ title: '성공', description: '내부에서 불러오기' });
   };
 
+  const handleClick2 = () => {
+    showToast({
+      title: '성공2',
+      description: '내부에서 불러오기2',
+      visibleTime: 5000,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await saveData({ data });
@@ -24,6 +32,9 @@ export const Test = () => {
     <article className="flex flex-col gap-6 p-4">
       <button className="p-4 bg-blue-200" onClick={handleClick}>
         컴포넌트 내부 토스트
+      </button>
+      <button className="p-4 bg-blue-200" onClick={handleClick2}>
+        컴포넌트 내부 토스트2
       </button>
       <form
         className="flex flex-col items-center gap-2 p-4 border border-blue-200"
