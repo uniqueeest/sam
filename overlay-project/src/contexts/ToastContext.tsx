@@ -8,6 +8,7 @@ type OverlayListType = {
 };
 
 type ToastContextType = {
+  // TODO: visible 대신 duration으로 네이밍 수정하기
   showToast: ({
     title,
     description,
