@@ -29,16 +29,13 @@ export class MoviesController {
     return this.moviesService.create(movieData);
   }
 
+  @Patch('/:id')
+  patch(@Param('id') movieId: string, @Body() updateData) {
+    return this.moviesService.update(movieId, updateData);
+  }
+
   @Delete('/:id')
   remove(@Param('id') movieId: string) {
     return this.moviesService.remove(movieId);
-  }
-
-  @Patch('/:id')
-  patch(@Param('id') movieId: string, @Body() updateData) {
-    return {
-      updatedMovie: movieId,
-      ...updateData,
-    };
   }
 }
